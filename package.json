@@ -1,0 +1,9 @@
+{
+  "name": "theme",
+  "version": "1.0.0",
+  "description": "A react module for themes, built on styled-components.",
+  "main": "index.js",
+  "repository": "https://github.com/morezco/react-theme-module.git",
+  "author": "Guilherme Moresco <guilherme.moresco@vortigo.com.br>",
+  "license": "MIT"
+}
