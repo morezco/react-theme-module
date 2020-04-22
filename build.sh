@@ -32,13 +32,19 @@ fi
 cp -r ../../$package/build ./build
 cp ../../$package/wait ./package.json
 
-if [ ! -d ./build/DevTools/assets/fonts ]; then
-    mkdir ./build/DevTools/assets/fonts
-fi
+# if [ ! -d "../../$package/src/assets" ]; then
+#     mkdir ../../$package/src/assets
+# fi
 
+# if [ ! -d "../../$package/src/assets/fonts" ]; then
+#     mkdir ../../$package/src/assets/fonts
+# fi
 
-cp -r ../../$package/src/DevTools/assets/fonts/* ./build/DevTools/assets/fonts
-cp ../../$package/src/DevTools/assets/fonts.css ./build/DevTools/assets/fonts.css
+cp -r ../../$package/src/assets ./build/assets
+cp -r ../../$package/src/interfaces ./build/interfaces
+
+cp -r ../../$package/src/styles/*.css ./build/styles
+cp -r ../../$package/src/styles/animations/*.css ./build/styles/animations
 
 cd ../../$package
 
