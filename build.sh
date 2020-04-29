@@ -40,11 +40,13 @@ cp ../../$package/wait ./package.json
 #     mkdir ../../$package/src/assets/fonts
 # fi
 
-cp -r ../../$package/src/assets ./build/assets
-cp -r ../../$package/src/interfaces ./build/interfaces
+# Uncopy later if issues arise
 
-cp -r ../../$package/src/styles/*.css ./build/styles
-cp -r ../../$package/src/styles/animations/*.css ./build/styles/animations
+# cp -r ../../$package/src/assets ./build/assets
+# cp -r ../../$package/src/interfaces ./build/interfaces
+
+# cp -r ../../$package/src/styles/*.css ./build/styles
+# cp -r ../../$package/src/styles/animations/*.css ./build/styles/animations
 
 cd ../../$package
 

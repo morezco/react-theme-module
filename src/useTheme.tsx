@@ -1,32 +1,46 @@
-import { useEffect, useContext } from "react";
-import { ThemeContext } from "styled-components";
-import { palette, ITheme } from "./Theme";
+import { useEffect, useCallback, useContext } from "react";
+import { Context, ThemeJSON } from "./constants";
 
 type ThemeHookReturn = {
-  Name: string;
-  Use: (name: palette) => boolean;
-  Switch: () => boolean;
-  Add: (theme: string, config: any) => boolean;
-  Remove: (theme: string) => boolean;
-  Set: (theme: string, property: string, value: string) => boolean;
-  Themes: any;
+  theme: {
+    current: string;
+    all: Array<string>;
+    set: Function;
+    change: any;
+  };
+  devtools: {
+    open: boolean;
+    toggle: Function;
+  };
+  contexts: any;
 };
 
-export function useTheme(component: string, config?: ITheme): ThemeHookReturn {
+export function useTheme(
+  component: string,
+  config?: ThemeJSON,
+  variables?: { [variableName: string]: string }
+): ThemeHookReturn {
   component = component.toLowerCase();
+  const { theme, devtools, context, contexts } = useContext(Context);
 
-  const { Themes, For } = useContext(ThemeContext);
-  const Theme = For(component);
-
-  useEffect(() => {
-    Theme.Add(component, config || {});
-
-    return () => Theme.Remove(component);
-    // eslint-disable-next-line
-  }, [Theme.Name]);
+  useEffect(
+    useCallback(() => {
+      context.add(component, config || {}, variables);
+    }, [context, component, config, variables]),
+    [theme.name]
+  );
 
   return {
-    ...Theme,
-    Themes,
-  } as ThemeHookReturn;
+    theme: {
+      current: theme.name,
+      all: theme.names,
+      set: theme.set,
+      change: theme.change,
+    },
+    devtools: {
+      open: devtools.open,
+      toggle: devtools.toggle,
+    },
+    contexts,
+  };
 }

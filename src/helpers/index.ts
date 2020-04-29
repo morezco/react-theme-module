@@ -4,3 +4,4 @@ export { C } from "./C";
 export { Load } from "./load";
 export { Save } from "./save";
 export { map } from "./mapIntoComponents";
+export { clone } from "./clone";
