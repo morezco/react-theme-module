@@ -57,9 +57,9 @@ export const Themed = ({
         }
       } else {
         throw new Error(
-          `Attempted to ${
+          `attempted to ${
             isRestoring ? "restore" : "set"
-          } non-existent theme "${name}". Be sure to pass all of your possible palette names into the themes prop.`
+          } non-existent theme "${name}". Be sure to pass all of your possible palette names into the themes prop of your <Themed /> context.`
         );
       }
     },
@@ -121,6 +121,8 @@ export const Themed = ({
       const original = clone(config);
       const res: { [property: string]: string } = {};
 
+      console.log(config, original);
+
       for (let property in config[_theme]) {
         if (
           typeof config[_theme][property] !== "string" &&
@@ -144,25 +146,27 @@ export const Themed = ({
         }
       }
 
-      for (let property in config[_theme]) {
-        if (typeof config[_theme][property] === "string") {
-          res[property] =
-            _contexts[name]?.override[_theme]?.[property] ||
-            (config[_theme][property] as string);
-        }
-      }
-
       _setContexts((current: any) => ({
         ...current,
         [name]: {
           input: original,
-          output: res,
-          selected: _contexts[name]?.selected || false,
-          override: { ..._contexts[name]?.override } || {},
+          output: (function () {
+            for (let property in config[_theme]) {
+              if (typeof config[_theme][property] === "string") {
+                res[property] =
+                  current[name]?.override[_theme]?.[property] ||
+                  (config[_theme][property] as string);
+              }
+            }
+
+            return res;
+          })(),
+          selected: current[name]?.selected || false,
+          override: { ...current[name]?.override } || {},
         },
       }));
     },
-    [_theme, _contexts, _setContexts]
+    [_theme, _setContexts]
   );
 
   const setProperty = useCallback(

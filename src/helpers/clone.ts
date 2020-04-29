@@ -10,7 +10,6 @@ export function clone(subject: any) {
         : subject[key] instanceof Date
         ? new Date((subject as Date).getTime())
         : subject[key];
-
-    return res;
   }
+  return res;
 }
