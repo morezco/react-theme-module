@@ -1,5 +1,6 @@
-import { useEffect, useCallback, useContext } from "react";
+import { useState, useEffect, useCallback, useContext } from "react";
 import { Context, ThemeJSON } from "./constants";
+import { differs } from "./helpers";
 
 type ThemeHookReturn = {
   theme: {
@@ -16,20 +17,25 @@ type ThemeHookReturn = {
 };
 
 export function useTheme(
-  component?: string,
+  component: string,
   config?: ThemeJSON,
   variables?: { [variableName: string]: string }
 ): ThemeHookReturn {
-  component = component?.toLowerCase();
-  const { theme, devtools, context, contexts } = useContext(Context);
+  component = component.toLowerCase();
+  const { theme, devtools, context, contexts, reload } = useContext(Context);
+
+  const [_variables, _setVariables] = useState(variables || {});
+
+  if (variables && differs(variables, _variables)) {
+    _setVariables(variables!);
+  }
 
   useEffect(
     useCallback(() => {
-      if (component) {
-        context.add(component, config || {}, variables);
-      }
-    }, [context, component, config, variables]),
-    [theme.name]
+      context.add(component, config || {}, _variables);
+      reload.set(false);
+    }, [context, component, config, _variables, reload]),
+    [theme.name, reload.reload, _variables]
   );
 
   return {

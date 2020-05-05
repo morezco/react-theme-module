@@ -5,3 +5,4 @@ export { Load } from "./load";
 export { Save } from "./save";
 export { map } from "./mapIntoComponents";
 export { clone } from "./clone";
+export { differs } from "./differs";
