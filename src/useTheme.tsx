@@ -17,11 +17,11 @@ type ThemeHookReturn = {
 };
 
 export function useTheme(
-  component: string,
+  component?: string,
   config?: ThemeJSON,
   variables?: { [variableName: string]: string }
 ): ThemeHookReturn {
-  component = component.toLowerCase();
+  component = component?.toLowerCase();
   const { theme, devtools, context, contexts, reload } = useContext(Context);
 
   const [_variables, _setVariables] = useState(variables || {});
@@ -32,8 +32,10 @@ export function useTheme(
 
   useEffect(
     useCallback(() => {
-      context.add(component, config || {}, _variables);
-      reload.set(false);
+      if (component) {
+        context.add(component, config || {}, _variables);
+        reload.set(false);
+      }
     }, [context, component, config, _variables, reload]),
     [theme.name, reload.reload, _variables]
   );

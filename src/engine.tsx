@@ -59,7 +59,9 @@ export const Themed = ({
 
   const set = useCallback(
     (name: string, isRestoring = false) => {
-      name = name.toLowerCase();
+      if (name && typeof name === "string" && name.length && name.toLowerCase) {
+        name = name.toLowerCase();
+      }
 
       if (themes?.includes(name)) {
         _setTheme(name);
