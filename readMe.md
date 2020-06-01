@@ -16,7 +16,7 @@ You have the choice of cloning the repository and using a release branch to imme
 cd path/to/your/dependencies/repository
 git clone https://github.com/morezco/react-theme-module.git theme
 cd theme
-git checkout release/1.0.0
+git checkout release/2.0.0
 git pull
 ```
 
